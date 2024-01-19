@@ -1,0 +1,40 @@
+<body>
+    <div class="signup-form">
+        <div class="container">
+          <div class="header">
+            <h1 *ngIf="!isLoginRoute()">Create an Account</h1>
+            <h1 *ngIf="isLoginRoute()">Log In</h1>
+            <p>Interact-hub</p>
+          </div>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="input" *ngIf="!isLoginRoute()">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" placeholder="Name" formControlName="name"  />
+            </div>
+            <div class="input" *ngIf="!isLoginRoute()">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" placeholder="Surname" formControlName="surname"  />
+            </div>
+            <div class="input" *ngIf="!isLoginRoute()">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" placeholder="Profession" formControlName="course" />
+            </div>
+           
+            <div class="input">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" placeholder="Username" formControlName="username" />
+            </div>
+           
+            <div class="input">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" placeholder="Password" formControlName="password" />
+            </div>
+            <input class="signup-btn" type="submit" value="SIGN UP" *ngIf ="!isLoginRoute()"/>
+            <input class="signup-btn" type="submit" value="LOG IN" *ngIf ="isLoginRoute()"/>
+          </form>
+          
+           <p *ngIf="!isLoginRoute()">Already have an account <a (click)="navigateTo('login')">log in</a></p>
+      <p *ngIf="isLoginRoute()">Still don't have an account?<a (click)="navigateTo('signUp')">sign up</a></p>
+        </div>
+      </div>
+    </body>

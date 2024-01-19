@@ -1,0 +1,129 @@
+<div class="card"  >
+
+    <div class="card-header">
+  
+      <div class="card-cover" style="background-image: url('https://2.bp.blogspot.com/-b_lqelKRB4k/Xj-rBvoSxUI/AAAAAAAACHg/G19lzRiO6qYQmquCqut44r1cMdF53HQ0QCLcBGAsYHQ/s1600/anime3.png')"></div>
+  
+      <img class="card-avatar" src="https://2.bp.blogspot.com/-b_lqelKRB4k/Xj-rBvoSxUI/AAAAAAAACHg/G19lzRiO6qYQmquCqut44r1cMdF53HQ0QCLcBGAsYHQ/s1600/anime3.png" alt="avatar" />
+      <img class="card-avatar"  src="https://2.bp.blogspot.com/-b_lqelKRB4k/Xj-rBvoSxUI/AAAAAAAACHg/G19lzRiO6qYQmquCqut44r1cMdF53HQ0QCLcBGAsYHQ/s1600/anime3.png" alt="avatar" />
+      
+  
+      <h1 class="card-fullname">Veljko</h1>
+  
+      <h2 class="card-jobtitle">Veljovic</h2>
+  
+    </div>
+  
+    <div class="card-main">
+  
+      <div [class]="activeSection === 'about' ? 'card-section is-active' : 'card-section'" id="about" *ngIf="activeSection === 'about'">
+  
+        <div class="card-content">
+          <div class="card-subtitle">ABOUT</div>
+         
+        </div>
+  
+        <div class="card-social">
+  
+         
+  
+        </div>
+        <button class="contact-me">Interact-hub</button>
+      </div>
+  
+      <div [class]="activeSection === 'experience' ? 'card-section is-active' : 'card-section'" id="experience" *ngIf="activeSection === 'experience'">
+  
+  
+        <div class="card-content">
+  
+          <div class="card-subtitle">WORK EXPERIENCE</div>
+  
+          <div class="card-timeline">
+  
+            <div class="card-item" data-year="2014">
+  
+              <div class="card-item-title">Front-end Developer at <span>JotForm</span></div>
+  
+              <div class="card-item-desc">Disrupt stumptown retro everyday carry unicorn.</div>
+  
+            </div>
+  
+            <div class="card-item" data-year="2016">
+  
+              <div class="card-item-title">UI Developer at <span>GitHub</span></div>
+  
+              <div class="card-item-desc">Developed new conversion funnels and disrupt.</div>
+  
+            </div>
+  
+            <div class="card-item" data-year="2018">
+  
+              <div class="card-item-title">Illustrator at <span>Google</span></div>
+  
+              <div class="card-item-desc">Onboarding illustrations for App.</div>
+  
+            </div>
+  
+            <div class="card-item" data-year="2020">
+  
+              <div class="card-item-title">Full-Stack Developer at <span>CodePen</span></div>
+  
+              <div class="card-item-desc">Responsible for the encomposing brand expreience.</div>
+  
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div [class]="activeSection === 'contact' ? 'card-section is-active' : 'card-section'" id="contact" *ngIf="activeSection === 'contact'">
+  
+        
+        <div class="card-content">
+  
+          <div class="card-subtitle">ME</div>
+  
+          <div class="card-contact-wrapper">
+  
+            <div class="card-contact">
+  
+            Veljko Veljovic
+             
+  
+            </div>
+  
+            <div class="card-contact">
+               Software Developer
+            </div>
+  
+            <div class="card-contact">
+  
+            
+             
+              
+  
+            </div>
+  
+            <button class="contact-me">Interact-hub</button>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div class="card-buttons">
+  
+        <button data-section="#about" class="is-active" (click)="setActiveSection('about')"[ngClass]="{'is-active': activeSection === 'about'}">ABOUT</button>
+  
+        
+  
+        <button data-section="#contact"(click)="setActiveSection('contact')"[ngClass]="{'is-active': activeSection === 'contact'}">ME</button>
+  
+      </div>
+  
+    </div>
+  
+  </div>
