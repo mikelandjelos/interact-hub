@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Neo4jModule } from 'nest-neo4j/dist';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { Neo4jModule } from 'nest-neo4j/dist';
       username: 'neo4j',
       password: 'root-root',
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

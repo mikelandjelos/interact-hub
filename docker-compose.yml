@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  nbp-neo:
+    image: neo4j:5.15.0
+    container_name: nbp-neo
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/root-root
