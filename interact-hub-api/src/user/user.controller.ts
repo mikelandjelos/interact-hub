@@ -18,16 +18,18 @@ export class UserController {
   async createUser(@Body() user: User) {
     return await this.userService.create(user);
   }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Post('/follow/:username1/:username2')
+  async followUser(@Param('username1')username1:string,@Param('username2')username2:string) {
+    return await this.userService.followPerson(username1,username2)
+  }
+ 
+  @Get('/recommendation')
+ async findAll(@Body()username) {
+  
+    return await  this.userService.getFollowersOfFollowedPersons(username.username);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
+ 
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: Partial<User>) {
