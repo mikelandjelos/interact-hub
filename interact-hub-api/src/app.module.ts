@@ -10,7 +10,7 @@ import { Neo4jModule } from 'nest-neo4j/dist';
       host: 'localhost',
       port: 7687,
       username: 'neo4j',
-      password: 'neo4j',
+      password: 'root-root',
     }),
   ],
   controllers: [AppController],
