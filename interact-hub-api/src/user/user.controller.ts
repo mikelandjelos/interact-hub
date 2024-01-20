@@ -26,11 +26,9 @@ export class UserController {
     return await this.userService.followPerson(username1, username2);
   }
 
-  @Get('/recommendation')
-  async findAll(@Body() username) {
-    return await this.userService.getFollowersOfFollowedPersons(
-      username.username,
-    );
+  @Get('/recommendation/:username')
+  async findAll(@Param('username') username: string) {
+    return await this.userService.getFollowersOfFollowedPersons(username);
   }
 
   @Patch(':id')
