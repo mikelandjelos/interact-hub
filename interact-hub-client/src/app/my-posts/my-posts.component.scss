@@ -1,0 +1,92 @@
+body {
+	background: #e6ecf0;
+	font-family: 'Asap', sans-serif;
+	font-family: 'Roboto', sans-serif;
+}
+img {
+	max-width: 100%;
+}
+.avator {
+	border-radius: 100px;
+	width: 48px;
+	margin-right: 15px;
+}
+.tweet-wrap {
+	max-width: 490px;
+	background: #fff;
+	margin: 0 auto;
+	margin-top: 50px;
+	border-radius: 3px;
+	padding: 30px;
+	border-bottom: 1px solid #e6ecf0;
+	border-top: 1px solid #e6ecf0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.tweet-header {
+	display: flex;
+	align-items: flex-start;
+	font-size: 14px;
+}
+.tweet-header-info {
+	font-weight: bold;
+	span {
+		color: #657786;
+		font-weight: normal;
+		margin-left: 5px;
+	}
+	p {
+		font-weight: normal;
+		margin-top: 5px;
+	}
+}
+.tweet-img-wrap {
+	padding-left: 60px;
+}
+.tweet-info-counts {
+	display: flex;
+	margin-left: 60px;
+	margin-top: 10px;
+	div {
+		display: flex;
+		margin-right: 20px;
+		svg {
+			color: #657786;
+			margin-right: 10px;
+		}
+	}
+}
+@media screen and (max-width:430px) {
+	body {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.tweet-header {
+		flex-direction: column;
+		img {
+			margin-bottom: 20px;
+		}
+	}
+	.tweet-header-info {
+		p {
+			margin-bottom: 30px;
+		}
+	}
+	.tweet-img-wrap {
+		padding-left: 0;
+	}
+	.tweet-info-counts {
+		display: flex;
+		margin-left: 0;
+		div {
+			margin-right: 10px;
+		}
+	}
+	.star {
+		font-size: 90px;
+	  }
+	  .colored-star {
+		color: yellow; // Boja obojenih zvezdica
+	  }
+}

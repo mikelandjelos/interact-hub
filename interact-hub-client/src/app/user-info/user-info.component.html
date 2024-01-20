@@ -16,20 +16,7 @@
   
     <div class="card-main">
   
-      <div [class]="activeSection === 'about' ? 'card-section is-active' : 'card-section'" id="about" *ngIf="activeSection === 'about'">
-  
-        <div class="card-content">
-          <div class="card-subtitle">ABOUT</div>
-         
-        </div>
-  
-        <div class="card-social">
-  
-         
-  
-        </div>
-        <button class="contact-me">Interact-hub</button>
-      </div>
+      
   
       <div [class]="activeSection === 'experience' ? 'card-section is-active' : 'card-section'" id="experience" *ngIf="activeSection === 'experience'">
   
@@ -116,7 +103,7 @@
   
       <div class="card-buttons">
   
-        <button data-section="#about" class="is-active" (click)="setActiveSection('about')"[ngClass]="{'is-active': activeSection === 'about'}">ABOUT</button>
+       
   
         
   

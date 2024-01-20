@@ -1,0 +1,26 @@
+<div class="tweet-wrap" *ngFor="let post of posts">
+    <div class="tweet-header">
+      <img src="https://as1.ftcdn.net/v2/jpg/01/18/01/98/1000_F_118019822_6CKXP6rXmVhDOzbXZlLqEM2ya4HhYzSV.jpg" alt="" class="avator">
+      <div class="tweet-header-info" *ngIf="user.username==post.username">
+     Your post<span></span><span></span>
+        <p> {{post.content}}</p>
+        
+      </div>
+      <div class="tweet-header-info" *ngIf="user.username!=post.username">
+        {{post.username}}<span></span><span></span>
+          <p> {{post.content}}</p>
+          
+        </div>
+      
+    </div>
+    <div class="tweet-img-wrap">
+      <img  alt="" class="tweet-img">
+    </div>
+    <div class="tweet-info-counts">
+   
+      
+
+      
+      
+    </div>
+      </div>

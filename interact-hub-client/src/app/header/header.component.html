@@ -1,27 +1,26 @@
 <header>
     <section class="header-content">
         <h1 class="brand-logo">
-            <a href="#" class="logo">
+            <a (click)="navigateTo('')" class="logo" style="cursor: pointer;">
                 <i class="fa-solid fa-globe"></i>
-                <span class="logo-text">LOGO</span>
+                <span class="logo-text">Hub</span>
             </a>
         </h1>
         <nav role="navigation">
             <ul class="navigation__list-container" data-visible="true">
-                <li class="nav__item">
-                    <a class="nav__link" href="#">Home</a>
+                
+                <li class="nav__item" style="cursor: pointer;">
+                    <a class="nav__link" (click)="navigateTo('login')">Logout</a>
                 </li>
-                <li class="nav__item">
-                    <a class="nav__link" href="#">About</a>
+                <li class="nav__item" style="cursor: pointer;">
+                    <a class="nav__link" (click)="navigateTo('myprofile')">My profile</a>
                 </li>
-                <li class="nav__item">
-                    <a class="nav__link" href="#">Products</a>
+                <li class="nav__item" style="cursor: pointer;">
+                    <a class="nav__link" (click)="navigateTo('')">Home</a>
                 </li>
-                <li class="nav__item">
-                    <a class="nav__link" href="#">Links</a>
-                </li>
-                <li class="nav__item">
-                    <a class="nav__link" href="#">Contact</a>
+                
+                <li class="nav__item" style="cursor: pointer;">
+                    <a class="nav__link" href="#">Job offers</a>
                 </li>
             </ul>
         </nav>

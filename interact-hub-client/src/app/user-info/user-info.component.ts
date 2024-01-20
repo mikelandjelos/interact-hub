@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './user-info.component.scss'
 })
 export class UserInfoComponent {
-  activeSection:string = 'about';
+  activeSection:string = 'contact';
   user:any;
   constructor(){}
  

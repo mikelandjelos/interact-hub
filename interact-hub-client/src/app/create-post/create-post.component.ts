@@ -31,7 +31,10 @@ export class CreatePostComponent implements OnInit{
       date:Date.now(),
       username:this.user.username
     }
-    this.userService.createPost(post,this.user.username).subscribe((respo)=>console.log());
+    this.userService.createPost(post,this.user.username).subscribe((respo)=>{
+
+    }
+    );
   }
   handleGalleryImageSelect(event: any): any {
     const selectedFile = event.target.files[0];

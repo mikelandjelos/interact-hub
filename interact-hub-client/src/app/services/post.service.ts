@@ -11,5 +11,12 @@ export class PostService {
   getPosts(username:string){
     return this.httpClient.get(`${environment.api}post/recommendation/${username}`)
   }
-  
+  likePost(username:string,postId:string)
+  {
+    return this.httpClient.post(`${environment.api}post/likePost/${username}/${postId}`,{})
+  }
+  createdAndLiked(username:string)
+  {
+    return this.httpClient.get(`${environment.api}post/createdAndLiked/${username}`)
+  }
 }

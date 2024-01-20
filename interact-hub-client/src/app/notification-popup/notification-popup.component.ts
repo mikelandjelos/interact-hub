@@ -13,5 +13,12 @@ export class NotificationPopupComponent {
   }
   close(){
     this.dialogRef.close();
+    if(this.data.title=='Like')
+    window.location.reload();
+  }
+  ngOnDestroy()
+  {
+    if(this.data.title=='Like')
+    window.location.reload();
   }
 }

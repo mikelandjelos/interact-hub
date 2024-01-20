@@ -1,10 +1,9 @@
-<div class="container">
+
     <div class="frame">
         <div class="modal">
-            <img src="http://100dayscss.com/codepen/alert.png" width="44" height="38" />
-            <span class="title">Oh snap!</span>
-            <p>An error has occured while creating an error report.</p>
-            <div class="button">Dismiss</div>
+           
+            <span class="title">{{data.title}}</span>
+            <p>{{data.text}}</p>
+            <div class="button"(click)="close()">Dismiss</div>
         </div>
     </div>
-</div>
