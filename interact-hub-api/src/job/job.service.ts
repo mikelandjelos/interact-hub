@@ -35,6 +35,20 @@ export class JobService {
     return createdJob;
   }
 
+  async apply(username: string, jobId: string) {
+    return (
+      await this.neo4jService.write(
+        `
+      MATCH (person:Person { username: $username })
+      MATCH (job:Job { id: $jobId })
+      MERGE (person)-[application:APPLIES]->(job)
+      RETURN application
+      `,
+        { username, jobId },
+      )
+    ).records.map((record) => record.get('application')?.properties);
+  }
+
   findAll() {
     return `This action returns all job`;
   }

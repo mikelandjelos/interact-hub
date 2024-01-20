@@ -22,9 +22,9 @@ export class CompanyController {
     return await this.companyService.create(createCompanyDto, username);
   }
 
-  @Get()
-  findAll() {
-    return this.companyService.findAll();
+  @Get(':username')
+  findAll(@Param('username') username: string) {
+    return this.companyService.findAllForUsername(username);
   }
 
   @Get(':id')

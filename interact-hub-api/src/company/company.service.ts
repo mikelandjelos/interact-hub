@@ -48,8 +48,16 @@ export class CompanyService {
     return createdCompany;
   }
 
-  findAll() {
-    return `This action returns all company`;
+  async findAllForUsername(username: string) {
+    return (
+      await this.neo4jService.write(
+        `
+      MATCH (:Person { username: $username })-[:REGISTERS]->(company:Company)
+      RETURN company
+      `,
+        { username },
+      )
+    ).records.map((record) => record.get('company')?.properties);
   }
 
   findOne(id: number) {

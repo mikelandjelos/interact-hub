@@ -22,6 +22,14 @@ export class JobController {
     return await this.jobService.create(createJobDto, companyName);
   }
 
+  @Post('/apply/:username/:jobId')
+  async apply(
+    @Param('username') username: string,
+    @Param('jobId') jobId: string,
+  ) {
+    await this.jobService.apply(username, jobId);
+  }
+
   @Get()
   findAll() {
     return this.jobService.findAll();
