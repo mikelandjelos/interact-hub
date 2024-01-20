@@ -118,30 +118,39 @@ export class PostService {
   async recommendationPost(username: string) {
     const recommendationResult = await this.neo4jService.read(
       `
-      MATCH (me:Person {username: $username})-[:FOLLOWS]->(followed:Person)
-      OPTIONAL MATCH (followed)-[:CREATED]->(createdPost:Post)
-      OPTIONAL MATCH (followed)-[:LIKES]->(likedPost:Post)
-      WHERE NOT EXISTS((me)-[:LIKES]->(likedPost)) AND NOT EXISTS((me)-[:LIKES]->(createdPost))
-      RETURN DISTINCT createdPost, likedPost
-      LIMIT 50
+      MATCH (me:Person { username: $username })-[:FOLLOWS]->(followed:Person)
+      MATCH (followed)-[:CREATED]->(createdPost:Post)
+      WHERE NOT EXISTS((me)-[:LIKES]->(createdPost))
+      RETURN DISTINCT createdPost as post
+      LIMIT 25
+      UNION
+      MATCH (me:Person { username: $username })-[:FOLLOWS]->(followed:Person)
+      MATCH (followed)-[:CREATED]->(likedPosts:Post)
+      WHERE NOT EXISTS((me)-[:LIKES]->(likedPosts))
+      RETURN DISTINCT likedPosts as post
+      LIMIT 25
       `,
       { username },
     );
 
-    const recommendedPosts = recommendationResult.records.flatMap((record) => {
-      let array = [];
-      const createdPost = record.get('createdPost');
-      const likedPost = record.get('likedPost');
+    const recommendedPosts = recommendationResult.records.map(
+      (record) => record.get('post')?.properties,
+    );
 
-      if (createdPost) {
-        array = array.concat(createdPost);
-      }
-      if (likedPost) {
-        array = array.concat(likedPost);
-      }
+    // const recommendedPosts = recommendationResult.records.flatMap((record) => {
+    //   let array = [];
+    //   const createdPost = record.get('createdPost');
+    //   const likedPost = record.get('likedPost');
 
-      return array.map((element) => element.properties);
-    });
+    //   if (createdPost) {
+    //     array = array.concat(createdPost);
+    //   }
+    //   if (likedPost) {
+    //     array = array.concat(likedPost);
+    //   }
+
+    //   return array.map((element) => element.properties);
+    // });
 
     return recommendedPosts;
   }
