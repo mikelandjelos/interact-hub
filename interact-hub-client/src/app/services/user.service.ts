@@ -13,7 +13,7 @@ export class UserService {
 
     
    }
-   createPost(post:any,username:string):Observable<any>
+   createPost(post:any,username:string)
    {
     return this.httpClient.post(`${environment.api}post/${username}`,post);
    }
