@@ -115,6 +115,21 @@ export class PostService {
     return result.records[0]?.get('person');
   }
 
+  async getPostsCreatedAndLikedByUser(username: string) {
+    return (
+      await this.neo4jService.read(
+        `
+        MATCH (p:Person { username: $username })-[:CREATED]->(createdPosts:Post)
+        RETURN DISTINCT createdPosts as posts
+        UNION
+        MATCH (p:Person { username: $username })-[:LIKED]->(likedPosts:Post)
+        RETURN DISTINCT likedPosts as posts
+      `,
+        { username },
+      )
+    ).records.map((record) => record.get('posts')?.properties);
+  }
+
   async recommendationPost(username: string) {
     const recommendationResult = await this.neo4jService.read(
       `
@@ -136,21 +151,6 @@ export class PostService {
     const recommendedPosts = recommendationResult.records.map(
       (record) => record.get('post')?.properties,
     );
-
-    // const recommendedPosts = recommendationResult.records.flatMap((record) => {
-    //   let array = [];
-    //   const createdPost = record.get('createdPost');
-    //   const likedPost = record.get('likedPost');
-
-    //   if (createdPost) {
-    //     array = array.concat(createdPost);
-    //   }
-    //   if (likedPost) {
-    //     array = array.concat(likedPost);
-    //   }
-
-    //   return array.map((element) => element.properties);
-    // });
 
     return recommendedPosts;
   }

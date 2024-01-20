@@ -26,4 +26,9 @@ export class PostController {
   async countLikesOnPost(@Param('id') postId: number) {
     return await this.postService.countLikesOnPost(postId);
   }
+
+  @Get('createdAndLiked/:username')
+  async createdAndLiked(@Param('username') username: string) {
+    return await this.postService.getPostsCreatedAndLikedByUser(username);
+  }
 }
