@@ -119,14 +119,16 @@ export class UserService {
     );
   }
 
-  async getInitialRecommendations() {
+  async getInitialRecommendations(username: string) {
     return (
       await this.neo4jService.read(
         `
       MATCH (p:Person)
+      WHERE NOT p.username = $username
       RETURN p
       LIMIT 10
       `,
+        { username },
       )
     ).records.map((record) => record.get('p').properties);
   }

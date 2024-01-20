@@ -32,9 +32,9 @@ export class UserController {
     return await this.userService.getFollowsOfFollowedPersons(username);
   }
 
-  @Get('/recommendation/initial/')
-  async recommendInitial() {
-    return await this.userService.getInitialRecommendations();
+  @Get('/recommendation/initial/:username')
+  async recommendInitial(@Param('username') username: string) {
+    return await this.userService.getInitialRecommendations(username);
   }
 
   @Get('/follows/:username')
