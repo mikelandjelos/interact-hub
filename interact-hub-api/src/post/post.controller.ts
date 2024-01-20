@@ -7,9 +7,12 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post('/:username')
- async create(@Body() createPostDto: IPost, @Param('username') username: string) {
-   const obj= await this.postService.create(createPostDto, username);
-  return obj;
+  async create(
+    @Body() createPostDto: IPost,
+    @Param('username') username: string,
+  ) {
+    const obj = await this.postService.create(createPostDto, username);
+    return obj;
   }
   @Post('likePost/:username/:postId')
   like(@Param('username') username: string, @Param('postId') postId: string) {

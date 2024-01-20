@@ -72,7 +72,7 @@ export class PostService {
       })
       RETURN post.id as postId
       `,
-      { id: newPostId, content: content,username:username },
+      { id: newPostId, content: content, username: username },
     );
 
     const postId = postIdResult.records[0].get('postId');
@@ -118,30 +118,31 @@ export class PostService {
   async recommendationPost(username: string) {
     const recommendationResult = await this.neo4jService.read(
       `
-      MATCH (follower:Person {username: $username})-[:FOLLOWS]->(following:Person)
-      MATCH (following)-[:CREATED]->(createdPost:Post)
-      OPTIONAL MATCH (follower)-[:LIKES]->(likedPost:Post)
-      WHERE NOT (follower)-[:LIKES]->(createdPost)
+      MATCH (me:Person {username: $username})-[:FOLLOWS]->(followed:Person)
+      MATCH (followed)-[:CREATED]->(createdPost:Post)
+      OPTIONAL MATCH (followed)-[:LIKES]->(likedPost:Post)
+      WHERE NOT (me)-[:LIKES]->(likedPost)
       RETURN DISTINCT createdPost, likedPost
       LIMIT 50
       `,
       { username },
     );
-    
+
     const recommendedPosts = recommendationResult.records.flatMap((record) => {
       let array = [];
       const createdPost = record.get('createdPost');
       const likedPost = record.get('likedPost');
-    
+
       if (createdPost) {
         array = array.concat(createdPost);
       }
       if (likedPost) {
         array = array.concat(likedPost);
       }
-    
+
       return array.map((element) => element.properties);
     });
-    
-    return recommendedPosts;}
+
+    return recommendedPosts;
+  }
 }
