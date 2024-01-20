@@ -51,7 +51,8 @@ export class UserService {
     ]);
 
     if (!followerPerson || !followingPerson) {
-      throw new Error('One or both users not found');
+      throw new HttpException('First or second user does not exist.', HttpStatus.BAD_REQUEST);
+
     }
 
     const existingRelationship = await this.neo4jService.read(
@@ -63,7 +64,8 @@ export class UserService {
     );
 
     if (existingRelationship.records.length > 0) {
-      throw new Error('Already following');
+      throw new HttpException('Already following', HttpStatus.BAD_REQUEST);
+
     }
 
     await this.neo4jService.write(

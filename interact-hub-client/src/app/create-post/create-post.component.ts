@@ -28,7 +28,8 @@ export class CreatePostComponent implements OnInit{
     const content = this.postForm.value.postContent;
     const post = {
       content:content,
-      date:Date.now()
+      date:Date.now(),
+      username:this.user.username
     }
     this.userService.createPost(post,this.user.username).subscribe((respo)=>console.log());
   }

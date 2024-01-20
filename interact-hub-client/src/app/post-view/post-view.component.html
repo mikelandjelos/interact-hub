@@ -1,9 +1,9 @@
-<div class="tweet-wrap">
+<div class="tweet-wrap" *ngFor="let post of posts">
     <div class="tweet-header">
       <img src="https://2.bp.blogspot.com/-b_lqelKRB4k/Xj-rBvoSxUI/AAAAAAAACHg/G19lzRiO6qYQmquCqut44r1cMdF53HQ0QCLcBGAsYHQ/s1600/anime3.png" alt="" class="avator">
       <div class="tweet-header-info">
-       Veljko Veljovic <span>veljkovv</span><span>{{ 22 }}</span>
-        <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop pub</p>
+       {{post.username}}<span></span><span></span>
+        <p> {{post.content}}</p>
         
       </div>
       

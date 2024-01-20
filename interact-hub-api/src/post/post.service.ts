@@ -67,11 +67,12 @@ export class PostService {
       CREATE (post:Post {
         id: $id,
         content: $content,
-        createdAt: datetime()
+        createdAt: datetime(),
+        username: $username
       })
       RETURN post.id as postId
       `,
-      { id: newPostId, content: content },
+      { id: newPostId, content: content,username:username },
     );
 
     const postId = postIdResult.records[0].get('postId');
@@ -126,22 +127,21 @@ export class PostService {
       `,
       { username },
     );
-
-    const recommendedPosts = recommendationResult.records.map((record) => {
+    
+    const recommendedPosts = recommendationResult.records.flatMap((record) => {
       let array = [];
       const createdPost = record.get('createdPost');
       const likedPost = record.get('likedPost');
-
+    
       if (createdPost) {
         array = array.concat(createdPost);
       }
       if (likedPost) {
         array = array.concat(likedPost);
       }
-
-      return array.map((element) => element.properties[0]);
+    
+      return array.map((element) => element.properties);
     });
-
-    return recommendedPosts;
-  }
+    
+    return recommendedPosts;}
 }

@@ -17,4 +17,12 @@ export class UserService {
    {
     return this.httpClient.post(`${environment.api}post/${username}`,post);
    }
+   getInitialFollowers(username:string)
+  {
+    return this.httpClient.get(`${environment.api}user/recommendation/initial/${username}`)
+  }
+  followUser(username1:string, username2:string)
+  {
+    return this.httpClient.post(`${environment.api}user/follow/${username1}/${username2}`,{})
+  }
 }
