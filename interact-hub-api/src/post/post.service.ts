@@ -125,7 +125,7 @@ export class PostService {
       LIMIT 25
       UNION
       MATCH (me:Person { username: $username })-[:FOLLOWS]->(followed:Person)
-      MATCH (followed)-[:CREATED]->(likedPosts:Post)
+      MATCH (followed)-[:LIKES]->(likedPosts:Post)
       WHERE NOT EXISTS((me)-[:LIKES]->(likedPosts))
       RETURN DISTINCT likedPosts as post
       LIMIT 25
