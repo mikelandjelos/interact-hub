@@ -7,18 +7,16 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './my-posts.component.html',
-  styleUrl: './my-posts.component.scss'
+  styleUrl: './my-posts.component.scss',
 })
 export class MyPostsComponent {
-  user:any;
-  posts:any;
-constructor(private postsService:PostService)
-{
-  const userJson = localStorage.getItem('user') ?? '';
+  user: any;
+  posts: any;
+  constructor(private postsService: PostService) {
+    const userJson = localStorage.getItem('user') ?? '';
     this.user = JSON.parse(userJson);
-    this.postsService.createdAndLiked(this.user.username).subscribe((respo)=>{
-      this.posts = respo
-    })
+    this.postsService.createdAndLiked(this.user.username).subscribe((respo) => {
+      this.posts = respo;
+    });
   }
-
 }

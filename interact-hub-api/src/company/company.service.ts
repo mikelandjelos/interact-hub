@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class CompanyService {
   constructor(private neo4jService: Neo4jService) {}
 
-  async create(createCompanyDto: Company) {
+  async create(createCompanyDto: Company, username: string) {
     const existingCompany = await this.neo4jService.read(
       `MATCH (c:Company {name: $name, email: $email}) RETURN c`,
       { name: createCompanyDto.name, email: createCompanyDto.email },
@@ -17,7 +17,9 @@ export class CompanyService {
       throw new Error('Company name already exists');
     }
 
-    const createdCompany = await this.neo4jService.write(
+    const companyId = uuidv4();
+
+    const createCompanyQueryResult = await this.neo4jService.write(
       `
       CREATE (c:Company {
         id: $id,
@@ -28,10 +30,22 @@ export class CompanyService {
       })
       RETURN c
       `,
-      { id: uuidv4(), ...createCompanyDto },
+      { id: companyId, ...createCompanyDto },
     );
 
-    return createdCompany.records[0].get('c').properties as Company;
+    const createdCompany = createCompanyQueryResult.records[0].get('c')
+      .properties as Company;
+
+    await this.neo4jService.write(
+      `
+      MATCH (person:Person { username: $username })
+      MATCH (company:Company { id: $companyId })
+      MERGE (person)-[:REGISTERS]->(company)
+      `,
+      { username, companyId },
+    );
+
+    return createdCompany;
   }
 
   findAll() {

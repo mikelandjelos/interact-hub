@@ -14,9 +14,12 @@ import { Company } from './entities/company.entity';
 export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
-  @Post()
-  async create(@Body() createCompanyDto: Company) {
-    return await this.companyService.create(createCompanyDto);
+  @Post(':username')
+  async create(
+    @Body() createCompanyDto: Company,
+    @Param('username') username: string,
+  ) {
+    return await this.companyService.create(createCompanyDto, username);
   }
 
   @Get()
