@@ -120,9 +120,12 @@ export class PostService {
       `
       MATCH (me:Person {username: $username})-[:FOLLOWS]->(followed:Person)
       MATCH (followed)-[:CREATED]->(createdPost:Post)
-      OPTIONAL MATCH (followed)-[:LIKES]->(likedPost:Post)
+      MATCH (followed)-[:LIKES]->(likedPost:Post)
       WHERE NOT EXISTS(
         (me)-[:LIKES]->(likedPost)
+      ) AND 
+      NOT EXISTS(
+        (me)-[:LIKES]->(createdPost)
       )
       RETURN DISTINCT createdPost, likedPost
       LIMIT 50
