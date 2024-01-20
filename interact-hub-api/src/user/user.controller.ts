@@ -27,9 +27,14 @@ export class UserController {
     return await this.userService.followPerson(username1, username2);
   }
 
-  @Get('/recommendation/:username')
-  async findAll(@Param('username') username: string) {
-    return await this.userService.getFollowersOfFollowedPersons(username);
+  @Get('/recommendation/followOfFollows/:username')
+  async recommendFollowsOfFollows(@Param('username') username: string) {
+    return await this.userService.getFollowsOfFollowedPersons(username);
+  }
+
+  @Get('/recommendation/initial/')
+  async recommendInitial() {
+    return await this.userService.getInitialRecommendations();
   }
 
   @Patch(':id')
@@ -42,8 +47,7 @@ export class UserController {
     return this.userService.remove(+id);
   }
   @Post('/login')
-  async login(@Body()body)
-  {
-    return await this.userService.login(body.username,body.password);
+  async login(@Body() body) {
+    return await this.userService.login(body.username, body.password);
   }
 }

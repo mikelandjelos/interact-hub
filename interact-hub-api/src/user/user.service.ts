@@ -74,19 +74,18 @@ export class UserService {
       { followerUsername, followingUsername },
     );
   }
-  async login(username:string,password:string){
+  async login(username: string, password: string) {
     const user = await this.findPersonByUsername(username);
-    if(user==null)
-    throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+    if (user == null)
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
 
-      const storedPassword = user.password;
+    const storedPassword = user.password;
 
-      if (password === storedPassword) {
-        return { status: 200, message: user };
-      } else {
-        throw new HttpException('Incorrect password', HttpStatus.BAD_REQUEST);
-      }
-
+    if (password === storedPassword) {
+      return { status: 200, message: user };
+    } else {
+      throw new HttpException('Incorrect password', HttpStatus.BAD_REQUEST);
+    }
   }
   private async findPersonByUsername(username: string): Promise<any> {
     const result = await this.neo4jService.read(
@@ -103,7 +102,7 @@ export class UserService {
 
     return null;
   }
-  async getFollowersOfFollowedPersons(username: string) {
+  async getFollowsOfFollowedPersons(username: string) {
     const followedPersons = await this.neo4jService.read(
       `
       MATCH (:Person {username: $username})-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(follower_of_following:Person)
@@ -119,6 +118,19 @@ export class UserService {
       (record) => record.get('follower_of_following').properties,
     );
   }
+
+  async getInitialRecommendations() {
+    return (
+      await this.neo4jService.read(
+        `
+      MATCH (p:Person)
+      RETURN p
+      LIMIT 10
+      `,
+      )
+    ).records.map((record) => record.get('p').properties);
+  }
+
   findAll() {
     return `This action returns all user`;
   }
