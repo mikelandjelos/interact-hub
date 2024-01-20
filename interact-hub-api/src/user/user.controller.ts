@@ -16,6 +16,7 @@ export class UserController {
 
   @Post()
   async createUser(@Body() user: User) {
+    console.log(user);
     return await this.userService.create(user);
   }
   @Post('/follow/:username1/:username2')
@@ -39,5 +40,10 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+  @Post('/login')
+  async login(@Body()body)
+  {
+    return await this.userService.login(body.username,body.password);
   }
 }

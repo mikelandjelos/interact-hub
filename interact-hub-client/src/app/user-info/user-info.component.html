@@ -8,9 +8,9 @@
       <img class="card-avatar"  src="https://2.bp.blogspot.com/-b_lqelKRB4k/Xj-rBvoSxUI/AAAAAAAACHg/G19lzRiO6qYQmquCqut44r1cMdF53HQ0QCLcBGAsYHQ/s1600/anime3.png" alt="avatar" />
       
   
-      <h1 class="card-fullname">Veljko</h1>
+      <h1 class="card-fullname">{{user.name}}</h1>
   
-      <h2 class="card-jobtitle">Veljovic</h2>
+      <h2 class="card-jobtitle">{{user.surname}}</h2>
   
     </div>
   
@@ -89,13 +89,13 @@
   
             <div class="card-contact">
   
-            Veljko Veljovic
+            {{user.name+" "+ user.surname}}
              
   
             </div>
   
             <div class="card-contact">
-               Software Developer
+              {{user.profession}}
             </div>
   
             <div class="card-contact">

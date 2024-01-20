@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { Neo4jService } from 'nest-neo4j/dist';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,14 +13,14 @@ export class UserService {
     const surname = user.surname;
     const password = user.password;
     const name = user.name;
-
+    console.log(user);
     const existingPerson = await this.neo4jService.read(
       `MATCH (p:Person {username: $username}) RETURN p`,
       { username },
     );
 
     if (existingPerson.records.length > 0) {
-      throw new Error('Username already exists');
+      throw new HttpException('Incorrect password', HttpStatus.BAD_REQUEST);
     }
 
     const newPersonId = uuidv4();
@@ -74,7 +74,20 @@ export class UserService {
       { followerUsername, followingUsername },
     );
   }
+  async login(username:string,password:string){
+    const user = await this.findPersonByUsername(username);
+    if(user==null)
+    throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
 
+      const storedPassword = user.password;
+
+      if (password === storedPassword) {
+        return { status: 200, message: user };
+      } else {
+        throw new HttpException('Incorrect password', HttpStatus.BAD_REQUEST);
+      }
+
+  }
   private async findPersonByUsername(username: string): Promise<any> {
     const result = await this.neo4jService.read(
       `

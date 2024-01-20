@@ -1,22 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class UserService {
 
   constructor(private httpClient:HttpClient) {
+
+
+    
    }
-
-
-
-
-   signUp(user:any){
-    return this.httpClient.post(environment.api+"user",user)
-   }
-   login(body:any)
+   createPost(post:any,username:string):Observable<any>
    {
-    return this.httpClient.post(environment.api+"user/login",body)
+    return this.httpClient.post(`${environment.api}post/${username}`,post);
    }
 }

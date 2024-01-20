@@ -10,11 +10,12 @@ import { Component } from '@angular/core';
 })
 export class UserInfoComponent {
   activeSection:string = 'about';
- 
+  user:any;
   constructor(){}
  
   ngOnInit():void{
-   
+    const userJson = localStorage.getItem('user') ?? '';
+    this.user = JSON.parse(userJson);
   }
   setActiveSection(section:string){
     this.activeSection=section;

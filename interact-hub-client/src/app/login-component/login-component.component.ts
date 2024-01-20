@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationPopupComponent } from '../notification-popup/notification-popup.component';
 
 @Component({
   selector: 'app-login-component',
@@ -14,7 +16,7 @@ import { LoginService } from '../services/login.service';
 export class LoginComponentComponent {
   public loginForm:FormGroup;
   
-constructor(private router:Router, private route:ActivatedRoute,private formBuilder:FormBuilder, private loginService:LoginService){
+constructor(private router:Router, private route:ActivatedRoute,private formBuilder:FormBuilder, private loginService:LoginService,     private dialog: MatDialog  ){
   this.loginForm = this.formBuilder.group({name:'',surname:'',profession:'',username:'',password:''});
 }
 ngOnInit(): void {
@@ -33,7 +35,32 @@ onSubmit() {
   {
   const username = this.loginForm.value.username;
   const password = this.loginForm.value.password;
-  console.log(username,password);
+  
+  const body = {username:username,password:password};
+  this.loginService.login(body).subscribe((respo:any)=>{
+    if(respo.status==200)
+    {
+      console.log(respo.message);
+      const userJson = JSON.stringify(respo.message);
+
+     localStorage.setItem('user',userJson);
+      this.navigateTo('');
+    }
+  },
+  (error: any) => {
+    
+    if (error.status === 400) {
+      this.dialog.open(NotificationPopupComponent, {
+        data: {
+          title: 'Notification',
+          text: 'Username or password are incorrect'
+        }
+      });
+    } else {
+     
+      console.error('Unexpected error:', error);
+    }
+  });
   }
   else
   {
