@@ -41,8 +41,10 @@ export class UserService {
 
     return createdPerson.records[0].get('p').properties as User;
   }
-  async followPerson(followerUsername: string, followingUsername: string): Promise<void> {
-   
+  async followPerson(
+    followerUsername: string,
+    followingUsername: string,
+  ): Promise<void> {
     const [followerPerson, followingPerson] = await Promise.all([
       this.findPersonByUsername(followerUsername),
       this.findPersonByUsername(followingUsername),
@@ -52,26 +54,24 @@ export class UserService {
       throw new Error('One or both users not found');
     }
 
-    
     const existingRelationship = await this.neo4jService.read(
       `
       MATCH (follower:Person {username: $followerUsername})-[r:FOLLOWS]->(following:Person {username: $followingUsername})
       RETURN r
       `,
-      { followerUsername, followingUsername }
+      { followerUsername, followingUsername },
     );
 
     if (existingRelationship.records.length > 0) {
       throw new Error('Already following');
     }
 
-    
     await this.neo4jService.write(
       `
       MATCH (follower:Person {username: $followerUsername}), (following:Person {username: $followingUsername})
       CREATE (follower)-[:FOLLOWS]->(following)
       `,
-      { followerUsername, followingUsername }
+      { followerUsername, followingUsername },
     );
   }
 
@@ -81,7 +81,7 @@ export class UserService {
       MATCH (p:Person {username: $username})
       RETURN p
       `,
-      { username }
+      { username },
     );
 
     if (result.records.length > 0) {
@@ -91,7 +91,6 @@ export class UserService {
     return null;
   }
   async getFollowersOfFollowedPersons(username: string) {
-    
     const followedPersons = await this.neo4jService.read(
       `
       MATCH (:Person {username: $username})-[:FOLLOWS]->(:Person)-[:FOLLOWS]->(follower_of_following:Person)
@@ -100,11 +99,12 @@ export class UserService {
       RETURN DISTINCT follower_of_following
       LIMIT 10;
       `,
-      { username }
+      { username },
     );
 
-   
-    return followedPersons.records.map((record) => record.get('follower_of_following').properties);
+    return followedPersons.records.map(
+      (record) => record.get('follower_of_following').properties,
+    );
   }
   findAll() {
     return `This action returns all user`;

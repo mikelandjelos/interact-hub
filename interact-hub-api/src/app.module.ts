@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { Neo4jModule } from 'nest-neo4j/dist';
 import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
+import { CompanyModule } from './company/company.module';
+import { JobModule } from './job/job.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { PostModule } from './post/post.module';
     }),
     UserModule,
     PostModule,
+    CompanyModule,
+    JobModule,
   ],
   controllers: [AppController],
   providers: [AppService],
