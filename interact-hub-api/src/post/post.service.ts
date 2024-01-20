@@ -110,19 +110,29 @@ export class PostService {
 
     return result.records[0]?.get('person');
   }
+
   async recommendationPost(username: string) {
     const recommendationResult = await this.neo4jService.read(
       `
-      MATCH (follower:Person {username: $username})-[:FOLLOWS]->(following:Person)-[:CREATED]->(post:Post)
-      WHERE NOT (follower)-[:LIKES]->(post)
-      RETURN DISTINCT post
+      MATCH (follower:Person {username: $username})-[:FOLLOWS]->(following:Person)
+      MATCH (following)-[:CREATED]->(createdPost:Post)
+      OPTIONAL MATCH (follower)-[:LIKES]->(likedPost:Post)
+      WHERE NOT (follower)-[:LIKES]->(createdPost)
+      RETURN DISTINCT createdPost, likedPost
       `,
       { username },
     );
 
-    const recommendedPosts = recommendationResult.records.map((record) =>
-      record.get('post'),
-    );
+    const recommendedPosts = recommendationResult.records.map((record) => {
+      const createdPost = record.get('createdPost');
+      const likedPost = record.get('likedPost');
+
+      if (createdPost && likedPost) {
+        return [createdPost, likedPost];
+      }
+
+      return createdPost || likedPost;
+    });
 
     return recommendedPosts;
   }
