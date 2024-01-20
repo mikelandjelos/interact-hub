@@ -31,13 +31,14 @@ export class PostService {
 
     await this.neo4jService.write(
       `
-      MATCH (person:Person {username: $username}), (post:Post {id: $postId})
+      MATCH (person:Person {username: $username})
+      MATCH (post:Post {id: $postId})
       MERGE (person)-[:LIKES]->(post)
       `,
       { username, postId },
     );
 
-    console.log(`User ${username} liked post ${postId}`);
+    return `User ${username} liked post ${postId}`;
   }
   private async findPostById(postId: string) {
     const result = await this.neo4jService.read(
@@ -60,26 +61,26 @@ export class PostService {
 
     const content = createPostDto.content;
     const newPostId = uuidv4();
-    const time = Date.now();
 
     const postIdResult = await this.neo4jService.write(
       `
       CREATE (post:Post {
         id: $id,
         content: $content,
-        createdAt: $time
+        createdAt: datetime()
       })
       RETURN post.id as postId
       `,
-      { id: newPostId, content: content, time: time },
+      { id: newPostId, content: content },
     );
 
     const postId = postIdResult.records[0].get('postId');
 
     await this.neo4jService.write(
       `
-      MATCH (person:Person {username: $username})
-      CREATE (person)-[:CREATED]->(post:Post {id: $postId, content: $content, createdAt: datetime()})
+      MATCH (person:Person { username: $username })
+      MATCH (post:Post { id: $postId })
+      CREATE (person)-[:CREATED]->(post)
       `,
       { username, postId, content },
     );
@@ -98,7 +99,7 @@ export class PostService {
 
     const likeCount = likeCountResult.records[0]?.get('likeCount');
 
-    return likeCount || 0; 
+    return likeCount || 0;
   }
 
   private async findPersonByUsername(username: string) {
@@ -133,14 +134,12 @@ export class PostService {
 
       if (createdPost) {
         array = array.concat(createdPost);
-        
       }
       if (likedPost) {
         array = array.concat(likedPost);
-        
       }
 
-      return array;
+      return array.map((element) => element.properties);
     });
 
     return recommendedPosts;
