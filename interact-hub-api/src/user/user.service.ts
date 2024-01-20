@@ -131,6 +131,18 @@ export class UserService {
     ).records.map((record) => record.get('p').properties);
   }
 
+  async countNumberOfFollows(username: string) {
+    return (
+      await this.neo4jService.read(
+        `
+        MATCH (p:Person { username: $username })-[:FOLLOWS]->(followed:Person)
+        RETURN count(followed) as follows_count 
+        `,
+        { username },
+      )
+    ).records[0].get('follows_count').low;
+  }
+
   findAll() {
     return `This action returns all user`;
   }

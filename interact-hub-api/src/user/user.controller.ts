@@ -37,6 +37,11 @@ export class UserController {
     return await this.userService.getInitialRecommendations();
   }
 
+  @Get('/follows/:username')
+  async followsCount(@Param('username') username: string) {
+    return await this.userService.countNumberOfFollows(username);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: Partial<User>) {
     return this.userService.update(+id, updateUserDto);
