@@ -1,5 +1,4 @@
 export class IPost {
-    content: string;
-    createdAt: Date;
-  }
-  
+  content: string;
+  createdAt: Date;
+}
