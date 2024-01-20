@@ -152,6 +152,22 @@ export class PostService {
       (record) => record.get('post')?.properties,
     );
 
+    console.log(recommendedPosts);
+
+    if (recommendedPosts.length == 0) {
+      return (
+        await this.neo4jService.read(
+          `
+        MATCH (post:Post)
+        RETURN post as posts
+        LIMIT 50;
+        `,
+        )
+      ).records.map((record) => {
+        return record.get('posts')?.properties;
+      });
+    }
+
     return recommendedPosts;
   }
 }
