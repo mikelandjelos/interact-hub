@@ -26,7 +26,6 @@ export class CompanyService {
         name: $name,
         email: $email,
         phone: $phone,
-        password: $password
       })
       RETURN c
       `,

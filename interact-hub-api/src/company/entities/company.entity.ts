@@ -3,5 +3,4 @@ export class Company {
   name: string;
   email: string;
   phone: string;
-  password: string;
 }
