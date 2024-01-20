@@ -122,7 +122,7 @@ export class PostService {
         MATCH (p:Person { username: $username })-[:CREATED]->(createdPosts:Post)
         RETURN DISTINCT createdPosts as posts
         UNION
-        MATCH (p:Person { username: $username })-[:LIKED]->(likedPosts:Post)
+        MATCH (p:Person { username: $username })-[:LIKES]->(likedPosts:Post)
         RETURN DISTINCT likedPosts as posts
       `,
         { username },
