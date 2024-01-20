@@ -139,7 +139,7 @@ export class PostService {
         array = array.concat(likedPost);
       }
 
-      return array.map((element) => element.properties);
+      return array.map((element) => element.properties[0]);
     });
 
     return recommendedPosts;
