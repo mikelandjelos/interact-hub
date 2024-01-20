@@ -126,8 +126,11 @@ export class UserService {
     return (
       await this.neo4jService.read(
         `
-      MATCH (p:Person)-[:FOLLOWS]->(followed:Person)
-      WHERE NOT p.username = $username AND NOT followed.username = $username
+      MATCH (p:Person)
+      MATCH (me:Person { username: $username })
+      WHERE NOT p.username = me.username AND NOT EXISTS (
+        (me)-[:FOLLOWS]->(p)
+      )
       RETURN p
       LIMIT 10
       `,
