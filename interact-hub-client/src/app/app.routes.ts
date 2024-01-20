@@ -6,5 +6,5 @@ import { FrontPageComponent } from './front-page/front-page.component';
 export const routes: Routes = [
   { path: 'login', pathMatch: 'full', component: LoginComponentComponent },
   { path: 'signUp', pathMatch: 'full', component: LoginComponentComponent },
-  { path: '', redirectTo: '/signUp', component: FrontPageComponent },
+  { path: '', pathMatch: 'full', component: FrontPageComponent },
 ];
