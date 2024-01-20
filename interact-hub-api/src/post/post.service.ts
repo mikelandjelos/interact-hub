@@ -27,13 +27,12 @@ export class PostService {
 
     if (alreadyLiked.records.length > 0) {
       throw new Error('Person already liked the post');
-      return;
     }
 
     await this.neo4jService.write(
       `
       MATCH (person:Person {username: $username}), (post:Post {id: $postId})
-      CREATE (person)-[:LIKES]->(post)
+      MERGE (person)-[:LIKES]->(post)
       `,
       { username, postId },
     );
@@ -89,15 +88,17 @@ export class PostService {
   }
 
   async countLikesOnPost(postId: number) {
-    const likeCount = await this.neo4jService.read(
+    const likeCountResult = await this.neo4jService.read(
       `
-      MATCH (:User)-[l:Likes]->(:Post { id: $postId })
-      RETURN count(l)
+      MATCH (:Person)-[:LIKES]->(post:Post { id: $postId })
+      RETURN count(*) as likeCount
       `,
       { postId },
     );
 
-    return likeCount.records[0].get(0);
+    const likeCount = likeCountResult.records[0]?.get('likeCount');
+
+    return likeCount || 0; 
   }
 
   private async findPersonByUsername(username: string) {
@@ -120,19 +121,26 @@ export class PostService {
       OPTIONAL MATCH (follower)-[:LIKES]->(likedPost:Post)
       WHERE NOT (follower)-[:LIKES]->(createdPost)
       RETURN DISTINCT createdPost, likedPost
+      LIMIT 50
       `,
       { username },
     );
 
     const recommendedPosts = recommendationResult.records.map((record) => {
+      let array = [];
       const createdPost = record.get('createdPost');
       const likedPost = record.get('likedPost');
 
-      if (createdPost && likedPost) {
-        return [createdPost, likedPost];
+      if (createdPost) {
+        array = array.concat(createdPost);
+        
+      }
+      if (likedPost) {
+        array = array.concat(likedPost);
+        
       }
 
-      return createdPost || likedPost;
+      return array;
     });
 
     return recommendedPosts;
