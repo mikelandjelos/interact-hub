@@ -51,8 +51,10 @@ export class UserService {
     ]);
 
     if (!followerPerson || !followingPerson) {
-      throw new HttpException('First or second user does not exist.', HttpStatus.BAD_REQUEST);
-
+      throw new HttpException(
+        'First or second user does not exist.',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const existingRelationship = await this.neo4jService.read(
@@ -65,7 +67,6 @@ export class UserService {
 
     if (existingRelationship.records.length > 0) {
       throw new HttpException('Already following', HttpStatus.BAD_REQUEST);
-
     }
 
     await this.neo4jService.write(
@@ -125,8 +126,8 @@ export class UserService {
     return (
       await this.neo4jService.read(
         `
-      MATCH (p:Person)
-      WHERE NOT p.username = $username
+      MATCH (p:Person)-[:FOLLOWS]->(followed:Person)
+      WHERE NOT p.username = $username AND NOT followed.username = $username
       RETURN p
       LIMIT 10
       `,
