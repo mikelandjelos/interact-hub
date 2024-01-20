@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePostDto } from './dto/create-post.dto';
 import { Neo4jService } from 'nest-neo4j/dist';
 import { IPost } from './entities/post.entity';
 import { v4 as uuidv4 } from 'uuid';
+
 @Injectable()
 export class PostService {
   constructor(private neo4jService: Neo4jService) {}
@@ -51,6 +51,7 @@ export class PostService {
 
     return result.records[0]?.get('post');
   }
+
   async create(createPostDto: IPost, username: string) {
     const person = await this.findPersonByUsername(username);
 
@@ -67,11 +68,11 @@ export class PostService {
       CREATE (post:Post {
         id: $id,
         content: $content,
-        createdAt: datetime()
+        createdAt: $time
       })
       RETURN post.id as postId
       `,
-      { id: newPostId, content },
+      { id: newPostId, content: content, time: time },
     );
 
     const postId = postIdResult.records[0].get('postId');
