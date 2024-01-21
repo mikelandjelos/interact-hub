@@ -1,0 +1,12 @@
+<div class="tweet-wrap" *ngFor="let post of posts">
+    <div class="tweet-header" style="margin-bottom: 25px;">
+      <img src="https://as1.ftcdn.net/v2/jpg/01/18/01/98/1000_F_118019822_6CKXP6rXmVhDOzbXZlLqEM2ya4HhYzSV.jpg" alt="" class="avator">
+      <div class="tweet-header-info">
+       {{post.companyName+": "+post.position}}<span></span><span></span>
+        <p> {{post.description}}</p>
+        
+      </div>
+     
+    </div>
+    <a  class="button"(click)="apply(post)" style="cursor: pointer;" >Apply</a>
+      </div>

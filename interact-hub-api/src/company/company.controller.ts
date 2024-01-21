@@ -19,6 +19,8 @@ export class CompanyController {
     @Body() createCompanyDto: Company,
     @Param('username') username: string,
   ) {
+    console.log(createCompanyDto);
+    console.log(username);
     return await this.companyService.create(createCompanyDto, username);
   }
 

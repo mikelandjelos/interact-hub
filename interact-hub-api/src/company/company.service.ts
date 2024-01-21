@@ -25,7 +25,7 @@ export class CompanyService {
         id: $id,
         name: $name,
         email: $email,
-        phone: $phone,
+        phone: $phone
       })
       RETURN c
       `,

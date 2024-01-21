@@ -14,11 +14,12 @@ export class JobService {
       CREATE (j:Job {
         id: $id,
         position: $position,
-        description: $description 
+        description: $description,
+        companyName: $companyName
       })
       RETURN j
       `,
-        { id: uuidv4(), ...createJobDto },
+        { id: uuidv4(), ...createJobDto,companyName },
       )
     ).records[0].get('j').properties as Job;
 
@@ -34,6 +35,39 @@ export class JobService {
 
     return createdJob;
   }
+  async getJobRecommendations(username: string) {
+    const recommendedJobs = (
+      await this.neo4jService.read(
+        `
+      MATCH (me:Person { username: $username })-[:APPLIES]->(:Job)<-[:OFFERS]-(:Company)-[:OFFERS]->(otherJob:Job)
+      WHERE NOT EXISTS((me)-[:APPLIES]->(otherJob))
+      RETURN DISTINCT otherJob as job
+      UNION
+      MATCH (me:Person { username: $username })-[:FOLLOWS]->(:Person)-[:REGISTERS]->(:Company)-[:OFFERS]->(followedJob:Job)
+      WHERE NOT EXISTS((me)-[:APPLIES]->(followedJob))
+      RETURN DISTINCT followedJob as job
+      `,
+        { username },
+      )
+    ).records.map((record) => record.get('job')?.properties);
+
+    if (recommendedJobs.length == 0) {
+      return (
+        await this.neo4jService.read(
+          `
+        MATCH (job:Job)
+        RETURN job as jobs
+        LIMIT 50;
+        `,
+        )
+      ).records.map((record) => {
+        return record.get('jobs')?.properties;
+      });
+    }
+
+    return recommendedJobs;
+  }
+
 
   async apply(username: string, jobId: string) {
     return (

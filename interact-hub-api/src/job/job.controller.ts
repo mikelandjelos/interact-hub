@@ -21,6 +21,10 @@ export class JobController {
   ) {
     return await this.jobService.create(createJobDto, companyName);
   }
+  @Get('recommendation/:username')
+  async getJobRecommendations(@Param('username') username: string) {
+    return await this.jobService.getJobRecommendations(username);
+  }
 
   @Post('/apply/:username/:jobId')
   async apply(

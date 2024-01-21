@@ -86,7 +86,7 @@ export class PostService {
       { username, postId, content },
     );
 
-    return postId;
+    return {postId};
   }
 
   async countLikesOnPost(postId: number) {

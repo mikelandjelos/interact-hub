@@ -1,0 +1,33 @@
+<body>
+    <app-header></app-header>
+    <div class="signup-form">
+      <div class="container">
+        <div class="header">
+          <h1>Job offer</h1>
+          <p>Interact-hub</p>
+        </div>
+        <form [formGroup]="jobOffer" (ngSubmit)="onSubmit()">
+          <div class="input">
+            <i class="fa-solid fa-user"></i>
+         
+            <select  formControlName="name"  style="width: 100%; border: none; padding: 8px 40px; border-radius: 4px; font-size: 16px;">
+              <option *ngFor="let company of companies" [value]="company.name">{{ company.name }}</option>
+            </select>
+            
+          </div>
+  
+          <div class="input">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" placeholder="Position" formControlName="position" />
+          </div>
+  
+          <div class="input">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" placeholder="Description" formControlName="description" />
+          </div>
+          <input class="signup-btn" type="submit" value="Offer" />
+        </form>
+      </div>
+    </div>
+  </body>
+  

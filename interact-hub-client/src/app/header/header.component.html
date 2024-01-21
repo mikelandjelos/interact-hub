@@ -9,18 +9,24 @@
         <nav role="navigation">
             <ul class="navigation__list-container" data-visible="true">
                 
-                <li class="nav__item" style="cursor: pointer;">
+                <li class="nav__item" style="cursor: pointer; padding-right: 10px;">
                     <a class="nav__link" (click)="navigateTo('login')">Logout</a>
                 </li>
-                <li class="nav__item" style="cursor: pointer;">
+                <li class="nav__item" style="cursor: pointer; padding-right: 10px;">
                     <a class="nav__link" (click)="navigateTo('myprofile')">My profile</a>
                 </li>
-                <li class="nav__item" style="cursor: pointer;">
+                <li class="nav__item" style="cursor: pointer; padding-right: 10px;">
                     <a class="nav__link" (click)="navigateTo('')">Home</a>
                 </li>
                 
-                <li class="nav__item" style="cursor: pointer;">
-                    <a class="nav__link" href="#">Job offers</a>
+                <li class="nav__item" style="cursor: pointer; padding-right: 50px;">
+                    <a class="nav__link" (click)="navigateTo('viewjoboffers')">Job offers</a>
+                </li>
+                <li class="nav__item" style="cursor: pointer;padding-right: 50px;">
+                    <a class="nav__link" (click)="navigateTo('createcompany')">Create company</a>
+                </li>
+                <li class="nav__item" style="cursor: pointer;padding-right: 10px;" *ngIf="createJobOffer">
+                    <a class="nav__link" (click)="navigateTo('joboffer')">Create job offer</a>
                 </li>
             </ul>
         </nav>
